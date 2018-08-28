@@ -54,10 +54,6 @@ export class Session implements ISession {
     Session.uidComparator = cmp;
   }
 
-  static fromObject(obj: ISession) {
-    return new Session(obj.userId, obj.expiration, obj.token.toString());
-  }
-
   private static uidComparator: UserIdComparator = (a: any, b: any) => a === b;
 
   constructor(
