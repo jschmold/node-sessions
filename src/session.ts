@@ -18,6 +18,7 @@ import { UserIdComparator } from '.';
 export interface ISession {
   userId: any;
   token: DToken;
+  expiration?: Date;
 }
 
 /**
@@ -25,12 +26,21 @@ export interface ISession {
  */
 export class Session implements ISession {
   token: DToken;
+  expiration?: Date;
 
   /**
    * An alias for token.toString()
    */
   get sessionToken() {
     return this.token.toString();
+  }
+
+  /**
+   * Whether or not a token has expired (false if never expires).
+   */
+  get hasExpired() {
+    if (this.expiration == null) return false;
+    return this.expiration.valueOf() >= Date.now();
   }
 
   /**
@@ -45,21 +55,23 @@ export class Session implements ISession {
   }
 
   static fromObject(obj: ISession) {
-    return new Session(obj.userId, obj.token.toString());
+    return new Session(obj.userId, obj.expiration, obj.token.toString());
   }
 
   private static uidComparator: UserIdComparator = (a: any, b: any) => a === b;
 
   constructor(
     public userId: any,
+    expiry?: Date,
     token?: DToken | string
   ) {
-    if (!token)
+    if (!token) {
       token = new DToken();
-    else 
+    } else {
       this.token = typeof token === 'string' 
         ? new DToken(token) 
         : token;
+    }
   }
 
 
@@ -80,11 +92,18 @@ export class Session implements ISession {
   }
 
   /**
-   *
+   * Validate against an id and a string-token
    * @param id
    * @param tokenString
    */
   validate(id: any, tokenString: string) {
     return this.validateUserId(id) && this.validateToken(tokenString);
+  }
+  
+  /**
+   * Alias for token.next
+   */
+  next() {
+    return this.token.next();
   }
 }
