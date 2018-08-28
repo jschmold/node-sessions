@@ -8,3 +8,6 @@ export let Error = ERRORS;
 import * as UTILS from './utils';
 export let Utils = UTILS;
 
+export * from './session';
+
+export type UserIdComparator = (a: any, b: any) => boolean;
