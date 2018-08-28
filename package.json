@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "gendocs": "typedoc --out docs --module node",
     "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
   "keywords": [
