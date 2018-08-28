@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "outDir": "dist",
+    "target": "es5",
+    "rootDir": "src",
+  },
+  "exclude": [
+    "**/*.spec.ts"
+  ]
+}
