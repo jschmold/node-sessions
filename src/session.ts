@@ -45,16 +45,21 @@ export class Session implements ISession {
   }
 
   static fromObject(obj: ISession) {
-    return new Session(obj.userId, obj.token);
+    return new Session(obj.userId, obj.token.toString());
   }
 
   private static uidComparator: UserIdComparator = (a: any, b: any) => a === b;
 
   constructor(
     public userId: any,
-    token?: DToken
+    token?: DToken | string
   ) {
-    this.token = token || new DToken();
+    if (!token)
+      token = new DToken();
+    else 
+      this.token = typeof token === 'string' 
+        ? new DToken(token) 
+        : token;
   }
 
 
